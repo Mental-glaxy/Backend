@@ -59,7 +59,7 @@ export class AuthController {
       const user = await this.authService.findUser(data);
       if (user) {
         const token = sign({ _id: user.id }, secret, { expiresIn: "90d" });
-        await this.authService.setToken(loginUserDto, token);
+        await this.authService.setToken(data, token);
         return {
           token,
         };
@@ -74,5 +74,8 @@ export class AuthController {
   @Post("logout")
   async logout(@Headers("Auth-Token") token: string) {
     await this.authService.deleteToken(token);
+    return {
+      status: "Logout done",
+    };
   }
 }

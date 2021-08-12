@@ -27,7 +27,7 @@ export class AuthService {
     return this.userModel.findOne({ login: login }).exec();
   }
   setToken(loginUserDto: LoginUserDto, token: string) {
-    return this.userModel.findOneAndUpdate(loginUserDto, { token });
+    return this.userModel.findOneAndUpdate(loginUserDto, { token: token });
   }
   deleteToken(token: string) {
     return this.userModel.findOneAndUpdate({ token }, { token: null });

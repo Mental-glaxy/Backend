@@ -8,5 +8,4 @@ export class RegisterUserResponse {
   token: string;
   login: string;
   email: string;
-  password: string;
 }

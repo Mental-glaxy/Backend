@@ -11,6 +11,7 @@ import { AuthService } from "./auth.service";
 import { RegisterUserDto, RegisterUserResponse } from "./dto/register-user.dto";
 import { sign } from "jsonwebtoken";
 import { LoginUserDto, LoginUserResponse } from "./dto/login-user.dto";
+import * as bcrypt from "bcrypt";
 
 @Controller("auth")
 export class AuthController {
@@ -43,15 +44,30 @@ export class AuthController {
 
   @Post("login")
   async login(@Body() loginUserDto: LoginUserDto): Promise<LoginUserResponse> {
-    const user = await this.authService.findUser(loginUserDto);
-    if (user) {
-      const token = sign({ _id: user.id }, secret, { expiresIn: "90d" });
-      await this.authService.setToken(loginUserDto, token);
-      return {
-        token,
+    const user_find = await this.authService.findUserByLogin(
+      loginUserDto.login
+    );
+    const ispassword = bcrypt.compareSync(
+      loginUserDto.password,
+      user_find.password
+    );
+    if (ispassword === true) {
+      const data: LoginUserDto = {
+        login: user_find.login,
+        password: user_find.password,
       };
+      const user = await this.authService.findUser(data);
+      if (user) {
+        const token = sign({ _id: user.id }, secret, { expiresIn: "90d" });
+        await this.authService.setToken(loginUserDto, token);
+        return {
+          token,
+        };
+      } else {
+        throw new UnauthorizedException("Incorrect login or password");
+      }
     } else {
-      throw new UnauthorizedException("Incorrect login or password");
+      throw new UnauthorizedException("Invalid data");
     }
   }
 

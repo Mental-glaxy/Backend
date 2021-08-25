@@ -1,6 +1,6 @@
 export class RegisterUserDto {
   login: string;
-  email: string;
+  telephone: number;
   password: string;
 }
 

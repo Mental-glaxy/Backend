@@ -14,7 +14,7 @@ export class AuthService {
     const password = bcrypt.hashSync(registerUserDto.password, 10);
     const data = {
       login: registerUserDto.login,
-      email: registerUserDto.email,
+      telephone: registerUserDto.telephone,
       password: password,
     };
     const newUser = new this.userModel(data);

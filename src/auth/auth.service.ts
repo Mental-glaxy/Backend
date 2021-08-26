@@ -15,6 +15,7 @@ export class AuthService {
     const data = {
       login: registerUserDto.login,
       telephone: registerUserDto.telephone,
+      email: registerUserDto.email,
       password: password,
     };
     const newUser = new this.userModel(data);

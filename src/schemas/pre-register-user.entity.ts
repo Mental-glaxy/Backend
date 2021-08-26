@@ -5,13 +5,13 @@ export class PreRegUser {
   @PrimaryGeneratedColumn()
   Id: number;
 
-  @Column()
+  @Column({ nullable: true })
   Login: string;
 
-  @Column()
+  @Column({ unique: true })
   Email: string;
 
-  @Column()
+  @Column({ unique: true })
   Telephone: number;
 
   @Column()

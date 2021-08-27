@@ -3,7 +3,7 @@ import { Controller } from "@nestjs/common";
 import { PreRegUser } from "../schemas/pre-register-user.entity";
 import { AdminService } from "./admin.service";
 import { AuthService } from "src/auth/auth.service";
-import { secret } from "src/app.secret";
+import * as dotenv from "dotenv";
 import { sign } from "jsonwebtoken";
 
 @Controller("admin")
@@ -41,7 +41,11 @@ export class AdminController {
     console.log(data);
     try {
       const result = await this._authService.createUser(data);
-      const token = sign({ _id: result.id }, secret, { expiresIn: "90d" });
+      const token = sign(
+        { _id: result.id },
+        dotenv.config().parsed.USERS_SECRET,
+        { expiresIn: "90d" }
+      );
       await this._adminService.delete(id);
       await this._authService.setToken(
         { login: result.login, password: result.password },

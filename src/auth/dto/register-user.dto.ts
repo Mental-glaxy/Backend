@@ -1,7 +1,7 @@
 export class RegisterUserDto {
   login: string;
-  telephone: number;
-  email?: string;
+  telephone?: number;
+  email: string;
   password: string;
 }
 

@@ -7,10 +7,10 @@ export class User {
   @Prop()
   login: string;
 
-  @Prop()
+  @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop()
   telephone: number;
 
   @Prop({ required: true })

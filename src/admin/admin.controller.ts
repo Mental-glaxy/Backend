@@ -14,7 +14,15 @@ export class AdminController {
   ) {}
   @Post("send-invitation")
   async create(@Body() userData: PreRegUser): Promise<any> {
-    return await this._adminService.create(userData);
+    try {
+      await this._adminService.create(userData);
+      return { stauts: "Заявка успешно отправлена" };
+    } catch (e) {
+      if (e.code == "SQLITE_CONSTRAINT") {
+        return { stauts: "Заявка с такими данными уже существует" };
+      }
+      return e;
+    }
   }
   @Get("prereg-users")
   async getInfo(): Promise<PreRegUser[]> {

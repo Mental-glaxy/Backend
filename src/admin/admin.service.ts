@@ -18,6 +18,9 @@ export class AdminService {
   async findAll(): Promise<PreRegUser[]> {
     return await this._userRepository.find();
   }
+  async findById(id: number): Promise<PreRegUser> {
+    return await this._userRepository.findOne(id);
+  }
   async update(user: PreRegUser): Promise<UpdateResult> {
     return await this._userRepository.update(user.Id, user);
   }

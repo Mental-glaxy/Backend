@@ -10,11 +10,12 @@ import { AuthModule } from "./auth/auth.module";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AdminModule } from "./admin/admin.module";
 import { AdminMiddleware } from "./admin.middleware";
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
+import * as env from "../config";
 @Module({
   imports: [
     AuthModule,
-    MongooseModule.forRoot(dotenv.config().parsed.MONGO_URL),
+    MongooseModule.forRoot(env.vars[2].MONGO_URL),
     AdminModule,
   ],
   controllers: [AppController],

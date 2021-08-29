@@ -5,7 +5,8 @@ import {
   UnauthorizedException,
   Headers,
 } from "@nestjs/common";
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
+import * as env from "../../config";
 import { AuthService } from "./auth.service";
 import { sign } from "jsonwebtoken";
 import { LoginUserDto, LoginUserResponse } from "./dto/login-user.dto";
@@ -31,11 +32,9 @@ export class AuthController {
       };
       const user = await this.authService.findUser(data);
       if (user) {
-        const token = sign(
-          { _id: user.id },
-          dotenv.config().parsed.USERS_SECRET,
-          { expiresIn: "90d" }
-        );
+        const token = sign({ _id: user.id }, env.vars[0].USERS_SECRET, {
+          expiresIn: "90d",
+        });
         await this.authService.setToken(data, token);
         return {
           token,

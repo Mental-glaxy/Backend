@@ -3,7 +3,7 @@ import { Controller } from "@nestjs/common";
 import { PreRegUser } from "../schemas/pre-register-user.entity";
 import { AdminService } from "./admin.service";
 import { AuthService } from "src/auth/auth.service";
-import * as dotenv from "dotenv";
+import * as env from "../../config";
 import { sign } from "jsonwebtoken";
 
 @Controller("admin")
@@ -31,7 +31,6 @@ export class AdminController {
   @Post("accept-user")
   async accept(@Body() id: number): Promise<any> {
     const user = await this._adminService.findById(id);
-    console.log(user);
     const data = {
       login: user.Login,
       email: user.Email,
@@ -40,11 +39,9 @@ export class AdminController {
     };
     try {
       const result = await this._authService.createUser(data);
-      const token = sign(
-        { _id: result.id },
-        dotenv.config().parsed.USERS_SECRET,
-        { expiresIn: "90d" }
-      );
+      const token = sign({ _id: result.id }, env.vars[0].USERS_SECRET, {
+        expiresIn: "90d",
+      });
       await this._adminService.delete(id);
       await this._authService.setToken(
         { login: result.login, password: result.password },

@@ -17,7 +17,7 @@ import { User, UserSchema } from "src/schemas/user.schema";
       database: join(__dirname, "..", "..", "data", "db.sqlite"),
       entities: [PreRegUser],
       synchronize: true,
-      logging: true,
+      logging: false,
     }),
   ],
   providers: [AdminService, AuthService],

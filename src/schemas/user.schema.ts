@@ -21,5 +21,7 @@ export class User {
 
   @Prop({ required: true, default: [] })
   other_info: Array<any>;
+  @Prop({ required: true, default: new Date() })
+  date: Date;
 }
 export const UserSchema = SchemaFactory.createForClass(User);

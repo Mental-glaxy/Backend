@@ -33,12 +33,11 @@ export class AdminController {
     const user = await this._adminService.findById(id);
     console.log(user);
     const data = {
-      login: null,
+      login: user.Login,
       email: user.Email,
       telephone: user.Telephone,
       password: user.Password,
     };
-    console.log(data);
     try {
       const result = await this._authService.createUser(data);
       const token = sign(

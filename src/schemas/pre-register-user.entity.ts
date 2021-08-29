@@ -16,4 +16,8 @@ export class PreRegUser {
 
   @Column()
   Password: string;
+  @Column({
+    default: () => Date.now(),
+  })
+  Date: number;
 }
